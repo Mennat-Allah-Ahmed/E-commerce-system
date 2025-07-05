@@ -25,24 +25,20 @@ public class Checkout {
 
         double subtotal = 0;
         double totalWeight = 0; // in grams
-        double shippingCostPerKg = 20; // EGP per kg
+        double shippingCostPerKg = 20;
         Map<String, Integer> shippingQuantities = new HashMap<>();
         List<Product> shippableItems = new ArrayList<>();
 
-        // Process cart items
         for (Map.Entry<Product, Integer> entry : cart.getItems().entrySet()) {
             Product product = entry.getKey();
             int quantity = entry.getValue();
 
-            // Check expiry
             if (isExpired(product)) {
                 throw new RuntimeException(product.getName() + " is expired.");
             }
 
-            // Subtotal
             subtotal += product.getPrice() * quantity;
 
-            // Shippable?
             if (isShippable(product)) {
                 shippableItems.add(product);
                 shippingQuantities.put(product.getName(), quantity);
@@ -50,7 +46,6 @@ public class Checkout {
             }
         }
 
-        // Shipping & total
         double shippingFee = (totalWeight / 1000.0) * shippingCostPerKg;
         double totalAmount = subtotal + shippingFee;
 
@@ -59,15 +54,12 @@ public class Checkout {
             throw new RuntimeException("Insufficient balance.");
         }
 
-        // Deduct balance
         customer.deduct(totalAmount);
 
-        // Reduce product stock
         for (Map.Entry<Product, Integer> entry : cart.getItems().entrySet()) {
             entry.getKey().reduceQuantity(entry.getValue());
         }
 
-        // Print shipping notice
         if (!shippableItems.isEmpty()) {
             System.out.println("** Shipment notice **");
             for (Product product : shippableItems) {
@@ -77,7 +69,6 @@ public class Checkout {
             System.out.printf("Total package weight %.1fkg%n%n", totalWeight / 1000.0);
         }
 
-        // Print receipt
         System.out.println("** Checkout receipt **");
         for (Map.Entry<Product, Integer> entry : cart.getItems().entrySet()) {
             Product product = entry.getKey();
@@ -90,7 +81,6 @@ public class Checkout {
         System.out.printf("Amount           %.0f%n", totalAmount);
         System.out.printf("Remaining Balance %.0f%n", customer.getBalance());
 
-        // Clear cart
         cart.clear();
     }
 }
