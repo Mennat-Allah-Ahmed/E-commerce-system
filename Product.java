@@ -1,6 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Product {
    private String name;
@@ -8,23 +6,7 @@ public class Product {
    private int quantity;
    private boolean expirable=false;
    private double weight; // in grams
-    LocalDate expireDate;
-
-    public static List<Product> productList = new ArrayList<>();
-public static void allProduct() {
-
-    Product p1 = new Product("Cheese", 35.0, 8, true, 500, LocalDate.of(2025, 7, 15));
-    Product p2 = new Product("Biscuits", 20.0, 13, true, 80, LocalDate.of(2025, 8, 15));
-    Product p3 = new Product("TV", 300.0, 5, false, 1000, LocalDate.of(2025, 1, 1));
-    Product p4 = new Product("Mobile", 500.0, 10, false, 350, LocalDate.of(2025, 1, 1));
-    Product p5 = new Product("ScratchCard", 10.0, 30, false, 3, LocalDate.of(2025, 1, 1));
-
-    productList.add(p1);
-    productList.add(p2);
-    productList.add(p3);
-    productList.add(p4);
-    productList.add(p5);
-}
+   LocalDate expireDate;
 
 public void reduceQuantity(int qty) {
         if (qty > quantity) {
